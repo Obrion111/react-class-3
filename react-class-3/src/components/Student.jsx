@@ -1,11 +1,11 @@
-function Student(){
-    return  <>
-    
-
-    <h3>Hello Student 1</h3> 
+function Student({ name='default', age=0  }) {
+    return <>
 
 
-    
+        <h3>Hello Student { name } that is { age } years old</h3>
+
+
+
     </>
 }
 

@@ -3,46 +3,120 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Student from './components/Student'
+import StudentManager from './components/StudentManager'
 
 function App() {
- 
 
 
-  // data could be from an API/database 
+  // state variable 
 
-  const listStudents = [
-    {name: 'Joao', age: 29},
-    {name: 'Diogo', age: 49},
-    {name: 'Jorge', age: 0}
-  ];
+  const [taskInput , setTaskInput] = useState('');
+  const [taskList, setTaskList] = useState([]);
 
 
-  // variable that will contain HTML that we will show on screen
 
-  const listStudentsHtml = [];
 
-  //for each element of listStudents, we will create a Student
+    // function that will add the task in the input to the taskList
 
+  const handleAddTask = () => {
+
+    
+    if(taskInput === '') return;
+    
+    // we create a copy of taskList,
+    // we do this because we cant directly change it
+
+    let taskAux = [...taskList];
+
+    //we make the chagnes we need to the copy of the state array
+    taskAux.push(taskInput);
+
+
+
+    // we update the state array with the copy of itself,
+    // now with a new task
+    setTaskList(taskAux);
+
+
+    //clean input
+    setTaskInput('');
+    
+
+  }
+
+
+
+  const removeTask = (taskToRemove) => {
+
+    // we create a copy of taskList, remove the task from the copy and then update the state variable
+
+
+    const taskAux = taskList.filter(task => task !== taskToRemove); 
+    setTaskList(taskAux);
+    
+
+  }
+
+
+  // parse the state array of tasks to html elements
   
+  const taskListHtml = taskList.map(task => (
+    <li> { task } </li>
+));
 
 
-listStudents.forEach((student) => {
-
-  listStudentsHtml.push(
-  <Student name={student.name} 
-  age ={student.age} /> 
-  
-);
 
 
-  
-  
-});
+
+
+
+
 
   return (
     <>
-      <h1>hello class 3</h1>
-      {listStudentsHtml}
+
+      Please insert your task 
+
+
+
+      <input value={taskInput} onChange={(evt) => setTaskInput(evt.target.value)} />
+
+      <br />
+      <br />
+
+      <button onClick={() => {
+        handleAddTask();
+      }}> Add to list </button>
+
+
+      <br />
+      <br />
+
+      <button onClick={() => {
+        removeTask(taskInput);
+      }}>Remove from List</button>
+
+      <ul>
+        { taskListHtml}
+
+
+
+
+
+
+
+
+
+
+      </ul>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <StudentManager />
     </>
   )
 }
